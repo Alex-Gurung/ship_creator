@@ -1,0 +1,14 @@
+html  
+  head
+    title ship creator
+    link(rel='stylesheet', href='./style.css')
+  body
+    div(class='wrapper')
+      h1 Result!
+      h2 Best Ship:
+      h3=name
+      ul
+        each thing, index in ship_value
+          li= thing
+      form(id="home", method="GET", class="form"  action="/")
+        button#submitButton(type='submit') Home
