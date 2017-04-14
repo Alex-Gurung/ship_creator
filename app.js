@@ -19,6 +19,9 @@ app.get('/', function (req, res) {
 app.get('/list', function(req, res) {
     res.render('list')
 })
+app.get('/listtolist', function (req, res) {
+    res.render('listtolist')
+})
 app.post('/plz', [shipify])
 function shipify(req, res) {
     // console.log(req.body)
@@ -63,13 +66,36 @@ function gen_ship(name1, name2){
 app.post('/listfind', [listfunc])
 function listfunc(req, res) {
     // console.log(req.body)
-    console.log(req.body.namef)
+    // console.log(req.body.namef)
     var name1 = req.body.namef
-    console.log(pronounceable.score(name1))
-    console.log(req.body.names)
+    // console.log(pronounceable.score(name1))
+    // console.log(req.body.names)
     var names = req.body.names
     var ship_string = gen_ship_string(name1, names)
     res.render('resultlist', {ship_value: ship_string, name:name1})
+    res.end();
+}
+app.post('/listtolistfind', [listtolist])
+function listtolist (req, res) {
+    var names1 = req.body.names1.split(",")
+    var names2 = req.body.names2
+    // console.log(names1)
+    // console.log(names2)
+    var best_score = 0;
+    var best_ship = "";
+    for (var i = 0; i < names1.length; i++) {
+        // console.log(names1[i])
+        var ship_str = gen_ship_string(names1[i], names2)
+        // console.log('ship_str')
+        // console.log(ship_str)
+        var score = ship_str['Best:'].split(" - ")[1]
+        if (score > best_score) {
+            best_score = score;
+            var best = ship_str['Best:'].split('Best ship:')[1]
+            best_ship = "Best ship: " + names1[i] + " + " + best;
+        }
+    }
+    res.render('resultlisttolist', {ship: best_ship})
     res.end();
 }
 function gen_ship_string(name1, names){
@@ -90,7 +116,7 @@ function gen_ship_string(name1, names){
         }
     }
     ship_string['Best:'] =  "Best ship: " + best_name + ' -> ' + best_ship + ' - ' + best_score
-    console.log(ship_string)
+    // console.log(ship_string)
     return ship_string
 }
 app.listen(3000, function () {  

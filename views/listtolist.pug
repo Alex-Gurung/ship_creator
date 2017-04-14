@@ -1,0 +1,17 @@
+html  
+  head
+    title ship creator
+    link(rel='stylesheet', href='./style.css')
+  body
+    div(class='wrapper')
+      h1 List!
+      form(id="testForm", method="POST", class="form"  action="/listtolistfind")
+        label names1:
+        input(type='text', name='names1', class='search-input')
+        br
+        label names2:
+        input(type='text', name='names2', class='search-input')
+        br
+        button#submitButton(type='submit') Submit
+      form(id="list", method="GET", class="form"  action="/")
+        button#submitButtonHome(type='submit') Home
